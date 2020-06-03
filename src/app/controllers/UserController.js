@@ -23,7 +23,7 @@ class UserController {
 
     async show(req, res) {
         const users = await User.findByPk(req.params.id, {
-            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider'],
+            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone' ],
             include: [{
                 model: File,
                 as: 'avatar',

@@ -88,6 +88,7 @@ class SessionController {
             fullname: user.fullname,
             avatar: user.avatar,
             email:  user.email,
+            role: user.role,
             token: req.userToken
         });
     }

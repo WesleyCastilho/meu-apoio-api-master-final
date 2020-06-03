@@ -73,11 +73,20 @@ class SessionController {
     }
 
     async index(req, res, next){
-        const user = await User.findByPk(req.userId);
+        const user = await User.findByPk(req.userId,{
+            include: [
+                {
+                    model: File,
+                    as: 'avatar',
+                    attributes: ['id', 'path', 'url'],
+                },
+            ],
+        });
         
         return res.status(200).json({
             id: user.id,
             fullname: user.fullname,
+            avatar: user.avatar,
             email:  user.email,
             token: req.userToken
         });

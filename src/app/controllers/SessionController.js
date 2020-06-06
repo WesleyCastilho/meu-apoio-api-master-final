@@ -62,6 +62,7 @@ class SessionController {
             user: {
                 id,
                 fullname,
+                teste: 'wesley',
                 email,
                 provider,
                 avatar,

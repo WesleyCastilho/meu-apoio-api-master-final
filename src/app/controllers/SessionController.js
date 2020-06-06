@@ -38,7 +38,7 @@ class SessionController {
         if (!(await user.checkPassword(password))) {
             return res.status(401).json({ error: 'Password does not match' });
         }
-        const { id, name, avatar, provider } = user;
+        const { id, fullname, avatar, provider } = user;
 
         if (avatar === null) {
             const defaultAvatar = {
@@ -47,7 +47,7 @@ class SessionController {
             return res.json({
                 user: {
                     id,
-                    name,
+                    fullname,
                     email,
                     provider,
                     avatar: defaultAvatar,
@@ -61,7 +61,7 @@ class SessionController {
         return res.json({
             user: {
                 id,
-                name,
+                fullname,
                 email,
                 provider,
                 avatar,
@@ -83,7 +83,7 @@ class SessionController {
             ],
         });
         
-        return res.status(200).json({
+        return res.status(200).json({ 
             id: user.id,
             fullname: user.fullname,
             avatar: user.avatar,

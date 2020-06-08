@@ -23,7 +23,7 @@ class UserController {
 
     async show(req, res) {
         const users = await User.findByPk(req.params.id, {
-            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone' ],
+            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone'],
             include: [{
                 model: File,
                 as: 'avatar',
@@ -94,7 +94,18 @@ class UserController {
             return res.status(400).json({ error: 'Validation fails.' });
         }
 
-        const { email, oldPassword } = req.body;
+        const { 
+            email, 
+            oldPassword,
+            password_hash,
+            provider,
+            created_at,
+            updated_at,
+            avatar_id,
+            about,
+            telephone,
+            role,
+        } = req.body;
 
         const user = await User.findByPk(req.userId);
 
@@ -137,6 +148,7 @@ class UserController {
             fullname,
             email,
             avatar,
+            
         });
     }
 }

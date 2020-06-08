@@ -25,8 +25,8 @@ class UserController {
         const { page = 1 } = req.query;
 
         const user = await User.findAll({
-            where: { user_id: req.userId, canceled_at: null },
-            order: ['date', 'id'],
+            where: { provider: 't' },
+            order: ['id'],
             limit: 20,
             offset: (page - 1) * 20,
             include: [

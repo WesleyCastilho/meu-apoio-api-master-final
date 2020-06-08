@@ -25,7 +25,8 @@ routes.put('/api/users', UserController.update);
 
 routes.get('/api/users', UserController.index);
 routes.get('/api/users/:id', UserController.show);
-routes.get('/api/providers', ProviderController.index);
+
+routes.get('/api/providers', UserController.getProvider);
 
 routes.get('/api/providers/:providerId/available', AvailableController.index);
 

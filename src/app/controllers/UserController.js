@@ -21,6 +21,25 @@ class UserController {
         return res.json(users);
     }
 
+    async getProvider(req, res){
+        const { page = 1 } = req.query;
+
+        const user = await User.findAll({
+            where: { user_id: req.userId, canceled_at: null },
+            order: ['date', 'id'],
+            limit: 20,
+            offset: (page - 1) * 20,
+            include: [
+                {
+                    model: File,
+                    as: 'file',
+                    attributes: ['id', 'path', 'url'],
+                },
+            ],
+        });
+        return res.json(user)
+    }
+
     async show(req, res) {
         const users = await User.findByPk(req.params.id, {
             attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone'],
@@ -99,7 +118,7 @@ class UserController {
             oldPassword,
             password_hash,
             provider,
-            created_at,
+            created_at, 
             updated_at,
             avatar_id,
             about,

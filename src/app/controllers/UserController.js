@@ -24,20 +24,19 @@ class UserController {
     async getProvider(req, res){
         const { page = 1 } = req.query;
 
-        const user = await User.findAll({
+        const users = await User.findAll({
+            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider'],
             where: { provider: 't' },
             order: ['id'],
             limit: 20,
             offset: (page - 1) * 20,
-            include: [
-                {
-                    model: File,
-                    as: 'file',
-                    attributes: ['id', 'path', 'url'],
-                },
-            ],
+            include: {
+                model: File,
+                as: 'avatar',
+                attributes: ['name', 'path', 'url'],
+            },
         });
-        return res.json(user)
+        return res.json(users)
     }
 
     async show(req, res) {

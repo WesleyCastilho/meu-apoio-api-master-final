@@ -25,7 +25,7 @@ class UserController {
         const { page = 1 } = req.query;
 
         const users = await User.findAll({
-            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone', 'price_hour'],
+            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone', 'price_hour', 'session_time'],
             where: { provider: 't' },
             order: ['id'],
             limit: 20,
@@ -41,7 +41,7 @@ class UserController {
 
     async show(req, res) {
         const users = await User.findByPk(req.params.id, {
-            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone'],
+            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone', 'price_hour','session_time'],
             include: [{
                 model: File,
                 as: 'avatar',

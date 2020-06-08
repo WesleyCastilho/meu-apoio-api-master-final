@@ -13,6 +13,7 @@ class User extends Model {
             about: Sequelize.STRING,
             telephone: Sequelize.STRING,
             price_hour: Sequelize.FLOAT,
+            session_time: Sequelize.INTEGER,
         }, {
             sequelize,
         });

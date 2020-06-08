@@ -12,6 +12,7 @@ class User extends Model {
             role: Sequelize.STRING,
             about: Sequelize.STRING,
             telephone: Sequelize.STRING,
+            price_hour: Sequelize.FLOAT,
         }, {
             sequelize,
         });

@@ -25,7 +25,7 @@ class UserController {
         const { page = 1 } = req.query;
 
         const users = await User.findAll({
-            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone'],
+            attributes: ['id', 'fullname', 'email', 'avatar_id', 'provider', 'role','about', 'telephone', 'price_hour'],
             where: { provider: 't' },
             order: ['id'],
             limit: 20,

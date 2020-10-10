@@ -18,6 +18,12 @@ Route.delete('/users/:id', 'UserController.destroy')
 // Rota de Login
 Route.post('/sessions', 'SessionController.create')
 
+// Rota de avatar
+Route.post('users/:id/images', 'ImageController.store')
+  .middleware('auth')
+Route.get('images/:path', 'ImageController.show')
+
+
 
 
 

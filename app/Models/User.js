@@ -21,6 +21,9 @@ class User extends Model {
     return ['password']
   }
 
+  images () {
+    return this.hasMany('App/Models/Image')
+  }
   
   tokens () {
     return this.hasMany('App/Models/Token')

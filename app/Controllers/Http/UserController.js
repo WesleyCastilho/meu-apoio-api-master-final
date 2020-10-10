@@ -1,9 +1,24 @@
 "use strict";
 const User = use("App/Models/User");
 class UserController {
-  async index() {
-    const user = await User.all();
-    return user;
+  async index({ request }) {
+    try {
+      const isprovider = request.header("isprovider");
+      if (isprovider === true) {
+        const user = await User.query()
+          .where("isprovider", "=", true)
+          .with("images")
+          .fetch();
+        return user;
+      }
+      const user = await User.query()
+        .where("isprovider", "=", false)
+        .with("images")
+        .fetch();
+      return user;
+    } catch (error) {
+      return response.status(401).send({ error: error });
+    }
   }
 
   async create({ request, response }) {
@@ -12,16 +27,32 @@ class UserController {
       const user = await User.create(data);
       return user;
     } catch (error) {
-        if(error.code === '23505'){
-            return response.status(401).send({ error: "Usuário já cadastrado" });
-        }
+      if (error.code === "23505") {
+        return response.status(401).send({ error: "Usuário já cadastrado" });
+      }
       return response.status(401).send({ error: error });
     }
   }
 
-  async show({ params }) {
-    const user = await User.findOrFail(params.id);
-    return user;
+  async show({ request, params }) {
+    try {
+      const isprovider = request.header("isprovider");
+      if (isprovider === true) {
+        const user = await User.query()
+          .where("id", "=", params.id)
+          .where("isprovider", "=", true)
+          .with("images")
+          .fetch();
+        return user;
+      }
+      const user = await User.query()
+        .where("isprovider", "=", false)
+        .with("images")
+        .fetch();
+      return user;
+    } catch (error) {
+      return response.status(401).send({ error: error });
+    }
   }
 
   async update({ params, request, response }) {
@@ -32,19 +63,23 @@ class UserController {
       await user.save();
       return user;
     } catch (error) {
-      return response.status(401).send({ error: "Usuário não localizado" });
+      if (error.code === "23505") {
+        return response.status(401).send({ error: "Usuário já cadastrado" });
+      }
+      return response.status(401).send({ error: error });
     }
   }
 
   async destroy({ params, auth, response }) {
-    const user = await User.findOrFail(params.id);
-
-    console.log(auth.user)
-    if (user.user_id !== auth.user.id) {
-      return response.status(401).send({ error: "Você não pode deletar a si mesmo" });
+    try {
+      const user = await User.findOrFail(params.id);
+      await user.delete();
+      return response
+        .status(401)
+        .send({ succes: "Usuário removido com sucesso" });
+    } catch (error) {
+      return response.status(401).send({ error: error });
     }
-
-    await property.delete();
   }
 }
 
